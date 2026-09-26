@@ -1,0 +1,116 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------------------
+   Design tokens
+   Dark cinematic base + pink/red accent + subtle purple.
+   Tailwind v4 reads these and generates matching utilities (bg-void,
+   text-muted, text-accent, font-display, shadow-glow, ease-out-expo, ...).
+--------------------------------------------------------------------------- */
+@theme {
+  /* Surfaces */
+  --color-void: #050409;
+  --color-abyss: #0a0714;
+  --color-surface: #141021;
+
+  /* Text */
+  --color-foreground: #f6f4ff;
+  --color-muted: #a49dc4;
+
+  /* Accents */
+  --color-accent: #ff3d7f;
+  --color-accent-strong: #ff1f6d;
+  --color-crimson: #e11d48;
+  --color-violet: #8b5cf6;
+
+  /* Typography */
+  --font-display: "Inter Tight", ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, sans-serif;
+  --font-body: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+
+  /* Fluid display scale — scales with the viewport so large type never
+     overflows on a 375px phone or looks small on a desktop. */
+  --text-hero: clamp(2.6rem, 13vw, 6.5rem);
+  --text-hero--line-height: 0.92;
+  --text-hero--letter-spacing: -0.03em;
+  --text-title: clamp(1.75rem, 6vw, 2.75rem);
+  --text-title--line-height: 1.1;
+  --text-title--letter-spacing: -0.02em;
+
+  /* Effects */
+  --shadow-glow: 0 10px 40px -12px rgba(255, 61, 127, 0.55);
+  --ease-out-expo: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  html {
+    height: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    min-height: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+    background-color: var(--color-void);
+    color: var(--color-foreground);
+    font-family: var(--font-body);
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background-color: color-mix(in oklab, var(--color-accent) 35%, transparent);
+    color: var(--color-foreground);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.16) transparent;
+  }
+}
+
+@layer utilities {
+  /* Soft neon text glow for the hero typography used from Phase 2 onwards. */
+  .text-glow {
+    text-shadow:
+      0 0 18px rgba(255, 61, 127, 0.35),
+      0 0 60px rgba(139, 92, 246, 0.25);
+  }
+}
+
+/* Respect the user's motion preference: neutralise animation, keep content. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
